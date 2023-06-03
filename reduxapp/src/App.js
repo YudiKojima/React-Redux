@@ -1,16 +1,21 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { incrementar, reduzir } from "./store/contador";
+import { incrementar, reduzir, somar } from "./store/contador";
 import { abrir, fechar } from "./store/modal";
-import { login } from "./store/login";
+import { autoLogin, login } from "./store/login";
 
 function App() {
   const [username, setUserName] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const { contador, modal } = useSelector((state) => state);
   const dispatch = useDispatch();
-  // const { data } = useSelector((state) => state.login.user);
+
+  React.useEffect(() => {
+    dispatch(autoLogin());
+  }, [dispatch]);
+
+  const { contador, modal } = useSelector((state) => state);
+  const { data } = useSelector((state) => state.login.user);
 
   const handleName = (e) => {
     setUserName(e.target.value);
@@ -33,6 +38,7 @@ function App() {
             <h1>Total: {contador}</h1>
             <button onClick={() => dispatch(incrementar())}>Incrementar</button>
             <button onClick={() => dispatch(reduzir())}>Reduzir</button>
+            <button onClick={() => dispatch(somar(5))}>Somar</button>
           </div>
         )}
         <button onClick={() => dispatch(abrir())}>Abrir</button>
@@ -58,8 +64,8 @@ function App() {
             value={password}
             onChange={handlePassword}
           />
+          <p>{data?.email}</p>
           <button>Send</button>
-          {/* <p>{data?.email}</p> */}
         </form>
       </div>
     </>
