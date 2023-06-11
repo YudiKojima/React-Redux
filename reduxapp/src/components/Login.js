@@ -15,7 +15,7 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="anime" onSubmit={handleSubmit}>
       <label className={styles.label} htmlFor="username">
         User
       </label>
